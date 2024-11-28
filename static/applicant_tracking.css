@@ -1,0 +1,148 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #004d40;
+    color: #fff;
+    padding: 20px;
+    min-height: 100vh;
+    text-align: center;
+}
+
+/* Background Animation */
+.overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(135deg, #004d40, #003e37);
+    z-index: -1;
+    animation: backgroundAnimation 15s ease-in-out infinite;
+}
+
+@keyframes backgroundAnimation {
+    0%, 100% { background-position: left top; }
+    50% { background-position: right bottom; }
+}
+
+/* Header Styling */
+.header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    width: 100%;
+    z-index: 10;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.logo {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #00e676;
+}
+
+.user-controls {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.welcome-message {
+    font-size: 1.2em;
+    color: #b2dfdb;
+}
+
+.dashboard-link, .logout-link {
+    color: #00e676;
+    text-decoration: none;
+    font-size: 1em;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.dashboard-link:hover, .logout-link:hover {
+    color: #b2dfdb;
+}
+
+/* Applications Container */
+.applications-container {
+    width: 80%;
+    max-width: 800px;
+    margin-top: 150px;
+}
+
+.applications-container h2 {
+    font-size: 2.5em;
+    color: #00e676;
+    margin-bottom: 30px;
+}
+
+/* Application List Item */
+.application-item {
+    background-color: #003e37;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.application-item:hover {
+    transform: translateY(-5px);
+    background-color: #004d40;
+}
+
+.application-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+}
+
+.application-title {
+    font-size: 1.5em;
+    color: #e0f2f1;
+    font-weight: bold;
+}
+
+.application-date {
+    font-size: 0.9em;
+    color: #b2dfdb;
+    font-style: italic;
+}
+
+/* Status Badge Styling */
+.status {
+    width: 120px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    border-radius: 5px;
+    color: #ffffff;
+    text-transform: uppercase;
+    font-size: 1em;
+}
+
+/* Step-Specific Colors */
+.status.step-1 { background-color: #ff5252; }  /* Example for "Step 1" */
+.status.step-2 { background-color: #ffca28; }  /* Example for "Step 2" */
+.status.step-3 { background-color: #00e676; }  /* Example for "Step 3" */
+.status.step-4 { background-color: #42a5f5; }  /* Example for "Step 4" */
+.status.step-5 { background-color: #8e24aa; }  /* Example for "Step 5" */

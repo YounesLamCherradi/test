@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RecruitPro - Dashboard</title>
+    <link rel="stylesheet" href="/static/applicant_dashboard.css">
+</head>
+<body>
+    <div class="overlay"></div>
+
+    <!-- Header with Logo, Welcome Message, Notification Icon, and Logout Link -->
+    <header class="header">
+        <div class="logo">RecruitPro</div>
+        <div class="user-controls">
+            <div class="welcome-message">Welcome, {{ first_name }}</div>
+
+            <!-- Notification Bell with Count -->
+            <div class="notification-container">
+                <span id="notification-count" class="notification-badge" style="display: none;">0</span>
+                <i class="notification-icon" onclick="toggleNotifications()">🔔</i>
+            </div>
+
+            <a href="/logout" class="logout-link">Logout</a>
+        </div>
+    </header>
+
+    <!-- Notifications Dropdown -->
+    <div id="notification-menu" class="notification-menu" style="display: none;">
+        <h3>Notifications</h3>
+        <ul id="notification-list">
+            <!-- Notifications will be dynamically inserted here -->
+        </ul>
+        <div id="no-notifications" class="no-notifications" style="display: none;">
+            No new notifications.
+        </div>
+    </div>
+
+    <!-- Dashboard Content -->
+    <div class="dashboard-content">
+        <h2 class="dashboard-title">Dashboard</h2>
+        
+        <div class="dashboard-options">
+            <a href="/available-vacancies" class="option-button">Available Vacancies</a>
+            <a href="/track-applications" class="option-button">Track Applications</a>
+        </div>
+    </div>
+
+    <script>
+        // Function to toggle the visibility of the notifications menu
+        function toggleNotifications() {
+            const menu = document.getElementById('notification-menu');
+            menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Function to fetch notifications and update the notification list and count
+        function fetchNotifications() {
+    fetch('/get-notifications')
+        .then(response => response.json())
+        .then(notifications => {
+            const unreadCount = notifications.length;
+
+            // Update notification count badge
+            const badge = document.getElementById('notification-count');
+            badge.textContent = unreadCount;
+            badge.style.display = unreadCount > 0 ? 'block' : 'none';
+
+            // Update notification list
+            const notificationList = document.getElementById('notification-list');
+            const noNotifications = document.getElementById('no-notifications');
+            notificationList.innerHTML = ''; // Clear the list
+
+            if (unreadCount > 0) {
+                noNotifications.style.display = 'none';
+                notifications.forEach(notification => {
+                    const li = document.createElement('li');
+                    li.textContent = notification.message;
+                    notificationList.appendChild(li);
+                });
+
+                // Mark notifications as read after displaying
+                markNotificationsAsRead();
+            } else {
+                noNotifications.style.display = 'block';
+            }
+        })
+        .catch(error => console.error('Error fetching notifications:', error));
+}
+
+
+        // Function to mark notifications as read
+        function markNotificationsAsRead() {
+            fetch('/mark-notifications-read', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Notifications marked as read');
+                } else {
+                    console.error('Failed to mark notifications as read');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        // Fetch notifications on page load
+        document.addEventListener('DOMContentLoaded', fetchNotifications);
+    </script>
+</body>
+</html>

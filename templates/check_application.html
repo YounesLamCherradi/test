@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check Applications - RecruitPro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='check_application.css') }}">
+</head>
+<body>
+    <div class="overlay"></div>
+
+    <!-- Header with Logo, Welcome Message, and Links -->
+    <header class="header">
+        <div class="logo">RecruitPro</div>
+        <div class="admin-controls">
+            <div class="welcome-message">Welcome, {{ admin_name }}</div>
+            <a href="{{ url_for('admin_dashboard') }}" class="dashboard-link">Dashboard</a>
+            <a href="{{ url_for('logout') }}" class="logout-link">Logout</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="content">
+        <h1>Check Applications</h1>
+
+        <!-- Applications Table -->
+        <table class="applications-table">
+            <thead>
+                <tr>
+                    <th>Applicant Name</th>
+                    <th>Position</th>
+                    <th>CV Status</th>
+                    <th>AI Score</th> <!-- Added AI Score column -->
+                    <th>Application Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for application in applications %}
+                <tr>
+                    <td>{{ application['applicant_name'] }}</td>
+                    <td>{{ application.get('position_title', 'Unknown Position') }}</td>
+                    <td>
+                        <span class="status-badge {% if application['status'] == 'accepted' %}accepted{% elif application['status'] == 'rejected' %}rejected{% endif %}">
+                            {{ application['status'] | capitalize }}
+                        </span>
+                    </td>
+                    <td>{{ application.get('Ai_score', 'N/A') }}</td> <!-- Display AI Score -->
+                    <td>{{ application.get('application_date', 'N/A') }}</td>
+                    <td>
+                        <button class="filter-button" onclick="viewApplication('{{ application['_id'] }}')">View Details</button>
+                        
+                        <!-- Stage Dropdown Menu -->
+                        <select class="stage-dropdown" onchange="updateStage('{{ application['_id'] }}', this.value)">
+                            <option value="" disabled selected>Set Stage</option>
+                            <option value="Rejected">Rejected</option>
+                            <option value="Accepted">Accepted</option>
+                            <option value="Reviewed">Reviewed</option>
+                        </select>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function viewApplication(id) {
+            window.location.href = `/application-details/${id}`;
+        }
+
+        function updateStage(applicationId, stage) {
+            fetch(`/update-stage/${applicationId}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ stage: stage })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Stage updated successfully');
+                    location.reload();
+                } else {
+                    alert('Failed to update stage: ' + data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>

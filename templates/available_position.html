@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Positions - RecruitPro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='available_position.css') }}">
+</head>
+<body>
+    <div class="overlay"></div>
+
+    <!-- Header with Logo, Welcome Message, and Dashboard Link -->
+    <header class="header">
+        <div class="logo">RecruitPro</div>
+        <div class="user-controls">
+            <div class="welcome-message">Welcome, {{ first_name }}</div>
+            <a href="/user-dashboard" class="dashboard-link">Dashboard</a> <!-- Links to user dashboard -->
+            <a href="/logout" class="logout-link">Logout</a>
+        </div>
+    </header>
+
+    <!-- Content Section -->
+    <div class="content">
+        <h1 class="content-title">Available Positions</h1>
+
+        <div class="position-cards">
+            {% for position in positions %}
+            <div class="position-card">
+                <h2 class="position-title">{{ position['title'] }}</h2>
+                <p class="position-location">{{ position['location'] }}</p>
+                <p class="position-description">{{ position['description'] }}</p>
+                <a href="/apply/{{ position['_id'] }}" class="apply-button">Apply</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

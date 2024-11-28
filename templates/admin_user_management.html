@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management - RecruitPro</title>
+    <style>
+        /* General Reset */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        /* Body Styling */
+        body {
+            font-family: Arial, sans-serif;
+            color: #fff;
+            background-color: #002f2a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* Background Animation */
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, #00695c, #004d40);
+            z-index: -1;
+            animation: backgroundAnimation 10s ease-in-out infinite;
+        }
+
+        @keyframes backgroundAnimation {
+            0%, 100% { background-position: left top; }
+            50% { background-position: right bottom; }
+        }
+
+        /* Header Styling with Slide-Down Animation */
+        .header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            transform: translateY(-100%);
+            animation: slideDown 1.5s ease forwards 0.5s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            z-index: 10;
+        }
+
+        @keyframes slideDown {
+            to { transform: translateY(0); }
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: #00e676;
+        }
+
+        .admin-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .welcome-message {
+            font-size: 1.2em;
+            color: #b2dfdb;
+        }
+
+        .dashboard-link,
+        .logout-link {
+            color: #00e676;
+            text-decoration: none;
+            font-size: 1em;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .dashboard-link:hover,
+        .logout-link:hover {
+            color: #fff;
+        }
+
+        /* Content Section */
+        .content {
+            width: 100%;
+            max-width: 1000px;
+            margin-top: 120px;
+            text-align: left;
+            animation: fadeIn 1.5s ease 1s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .content h1 {
+            font-size: 2.5em;
+            color: #ffffff;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Add New User Button */
+        .add-user-link {
+            display: inline-block;
+            padding: 12px 25px;
+            font-size: 1em;
+            border: 2px solid #00e676;
+            border-radius: 30px;
+            color: #00e676;
+            text-transform: uppercase;
+            text-decoration: none;
+            margin-bottom: 20px;
+            transition: background-color 0.3s, color 0.3s, transform 0.2s;
+        }
+
+        .add-user-link:hover {
+            background-color: #00e676;
+            color: #004d40;
+            transform: scale(1.05);
+        }
+
+        /* User Table Styling with Card-Like Rows */
+        .user-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 10px; /* Adds space between rows */
+        }
+
+        .user-table th, .user-table td {
+            padding: 15px;
+            text-align: left;
+            color: #e0f2f1;
+        }
+
+        .user-table th {
+            background-color: #004d40;
+            color: #00e676;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .user-table tr {
+            background: linear-gradient(135deg, #004d40, #005a4f);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s, box-shadow 0.3s;
+        }
+
+        .user-table tr:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .user-table th:first-child, .user-table td:first-child {
+            border-top-left-radius: 12px;
+            border-bottom-left-radius: 12px;
+        }
+
+        .user-table th:last-child, .user-table td:last-child {
+            border-top-right-radius: 12px;
+            border-bottom-right-radius: 12px;
+        }
+
+        /* Action Buttons */
+        .delete-button {
+            padding: 8px 16px;
+            border-radius: 20px;
+            background-color: #e57373;
+            color: #004d40;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s;
+            text-transform: uppercase;
+        }
+
+        .delete-button:hover {
+            background-color: #d32f2f;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay"></div>
+
+    <!-- Header with Logo, Welcome Message, Dashboard and Logout Links -->
+    <header class="header">
+        <div class="logo">RecruitPro</div>
+        <div class="admin-controls">
+            <div class="welcome-message">Welcome, {{ first_name }}</div>
+            <a href="{{ url_for('admin_dashboard') }}" class="dashboard-link">Dashboard</a>
+            <a href="{{ url_for('logout') }}" class="logout-link">Logout</a>
+        </div>
+    </header>
+
+    <div class="content">
+        <h1>User Management</h1>
+        <a href="{{ url_for('add_user') }}" class="add-user-link">Add New User</a>
+
+        <!-- User Table with Card-Like Rows -->
+        <table class="user-table">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user['username'] }}</td>
+                    <td>{{ user['first_name'] }}</td>
+                    <td>{{ user['last_name'] }}</td>
+                    <td>{{ user['email'] }}</td>
+                    <td>{{ user['role'] }}</td>
+                    <td class="action-buttons">
+                        <form action="{{ url_for('delete_user', user_id=user['_id']) }}" method="POST" style="display:inline;">
+                            <button type="submit" class="delete-button" onclick="return confirm('Are you sure you want to delete this user?');">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

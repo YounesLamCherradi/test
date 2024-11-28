@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Details - RecruitPro</title>
+    <style>
+        /* General Reset */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        /* Body Styling */
+        body {
+            font-family: Arial, sans-serif;
+            color: #fff;
+            background-color: #004d40;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Background Animation */
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, #00695c, #004d40);
+            z-index: -1;
+            animation: backgroundAnimation 10s ease-in-out infinite;
+        }
+
+        @keyframes backgroundAnimation {
+            0%, 100% { background-position: left top; }
+            50% { background-position: right bottom; }
+        }
+
+        /* Header Styling */
+        .header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            transform: translateY(-100%);
+            animation: slideDown 1.5s ease forwards 0.5s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 100%;
+        }
+
+        @keyframes slideDown {
+            to { transform: translateY(0); }
+        }
+
+        .logo { font-size: 1.8em; font-weight: bold; letter-spacing: 2px; color: #00e676; }
+
+        .admin-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .welcome-message { font-size: 1.2em; color: #b2dfdb; }
+
+        .logout-link { 
+            color: #00e676; 
+            text-decoration: none; 
+            font-weight: bold; 
+            transition: color 0.3s ease; 
+        }
+
+        .logout-link:hover { color: #fff; }
+
+        /* Content Section */
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background-color: rgba(0, 77, 64, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            margin-top: 120px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #00e676;
+            text-align: center;
+        }
+
+        .details {
+            color: #e0f2f1;
+            margin-bottom: 15px;
+        }
+
+        .back-button {
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: #00e676;
+            background-color: #004d40;
+            text-decoration: none;
+            font-weight: bold;
+            border: 2px solid #00e676;
+            display: inline-block;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #00e676;
+            color: #004d40;
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">RecruitPro</div>
+        <div class="admin-controls">
+            <div class="welcome-message">Welcome, {{ admin_name }}</div>
+            <a href="/logout" class="logout-link">Logout</a>
+        </div>
+    </header>
+
+    <!-- Application Details Section -->
+    <div class="container">
+        <h1>Application Details</h1>
+
+        <!-- Applicant Information -->
+        <div class="details">
+            <strong>Applicant Name:</strong> {{ application['applicant_name'] }}<br>
+            <strong>Email:</strong> {{ application['applicant_email'] }}<br>
+            <strong>Resume:</strong> 
+            <a href="{{ url_for('static', filename='uploads/' + application['resume_filename']) }}" download="{{ application['resume_filename'] }}" target="_blank">Download Resume</a><br>
+            <strong>Cover Letter:</strong> {{ application['cover_letter'] or 'N/A' }}<br>
+        </div>
+
+        <!-- Position Information -->
+        {% if position %}
+        <div class="details">
+            <strong>Position Title:</strong> {{ position['title'] }}<br>
+            <strong>Location:</strong> {{ position['location'] }}<br>
+            <strong>Description:</strong> {{ position['description'] }}<br>
+        </div>
+        {% endif %}
+
+        <!-- Back Button -->
+        <a href="{{ url_for('check_applications') }}" class="back-button">Back to Applications</a>
+    </div>
+</body>
+</html>

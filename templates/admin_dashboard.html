@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RecruitPro - Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin_dashboard.css') }}">
+</head>
+<body>
+    <div class="overlay"></div>
+
+    <!-- Header with Logo, Welcome Message, and Links -->
+    <header class="header">
+        <div class="logo">RecruitPro</div>
+        <div class="admin-controls">
+            <div class="welcome-message">Welcome, {{ first_name }}</div> <!-- Display name only -->
+            <a href="{{ url_for('admin_dashboard') }}" class="dashboard-link">Dashboard</a> <!-- New Dashboard link -->
+            <a href="{{ url_for('logout') }}" class="logout-link">Logout</a>
+        </div>
+    </header>
+
+    <!-- Admin Dashboard Content -->
+    <div class="dashboard-content">
+        <h2 class="dashboard-title">Admin Dashboard</h2>
+        
+        <div class="dashboard-options">
+            <a href="{{ url_for('check_applications') }}" class="option-button">Check Applications</a>
+            <a href="{{ url_for('manage_vacancies') }}" class="option-button">Manage Vacancies</a>
+            <a href="{{ url_for('user_management') }}" class="option-button">User Management</a>
+            <a href="{{ url_for('search_candidates') }}" class="option-button">Search Candidates' CVs</a> <!-- New Option -->
+        </div>
+    </div>
+</body>
+</html>

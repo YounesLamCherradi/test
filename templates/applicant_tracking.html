@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Previous Applications - RecruitPro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='applicant_tracking.css') }}">
+</head>
+<body>
+    <div class="overlay"></div>
+
+    <!-- Header with Logo, Dashboard Link, and Welcome Message -->
+    <header class="header">
+        <div class="logo">RecruitPro</div>
+        <div class="user-controls">
+            <div class="welcome-message">Welcome, {{ first_name }}</div>
+            <a href="/user-dashboard" class="dashboard-link">Dashboard</a>
+            <a href="/logout" class="logout-link">Logout</a>
+        </div>
+    </header>
+
+    <!-- Applications Container -->
+    <div class="applications-container">
+        <h2>Previous Applications</h2>
+
+        <!-- Loop through applications and display each one dynamically -->
+        {% for application in applications %}
+        <div class="application-item">
+            <div class="application-info">
+                <span class="application-title">{{ application['position_title'] }}</span>
+                <span class="application-date">Submitted on: {{ application['application_date'] }}</span>
+            </div>
+            <!-- Use step-X class to dynamically assign colors -->
+            <span class="status step-{{ application['stage'] }}">{{ application['status'] | capitalize }}</span>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Position - RecruitPro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin_edit_position.css') }}">
+</head>
+<body>
+    <div class="overlay"></div>
+
+    <!-- Header with Logo and Welcome Message -->
+    <header class="header">
+        <div class="logo">RecruitPro</div>
+        <div class="admin-controls">
+            <div class="welcome-message">Welcome, {{ admin_name }}</div>
+            <a href="{{ url_for('logout') }}" class="logout-link">Logout</a>
+        </div>
+    </header>
+
+    <!-- Content Section -->
+    <div class="content">
+        <h1>Edit Position</h1>
+
+        <!-- Edit Position Form -->
+        <div class="form-container">
+            <form action="{{ url_for('edit_position', post_id=post['_id']) }}" method="POST">
+                <label for="title">Position Title</label>
+                <input type="text" id="title" name="title" value="{{ post['title'] }}" required>
+
+                <label for="location">Location</label>
+                <input type="text" id="location" name="location" value="{{ post['location'] }}" required>
+
+                <label for="description">Description</label>
+                <textarea id="description" name="description" rows="4" required>{{ post['description'] }}</textarea>
+
+                <button type="submit" class="submit-button">Update Position</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

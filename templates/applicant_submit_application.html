@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply for Position - RecruitPro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='applicant_submit_application.css') }}">
+</head>
+<body>
+    <div class="overlay"></div>
+
+    <!-- Header with Logo, Dashboard, and Logout Link -->
+    <header class="header">
+        <div class="logo">RecruitPro</div>
+        <div class="user-controls">
+            <div class="welcome-message">Welcome, {{ first_name }}</div>
+            <a href="{{ url_for('user_dashboard') }}" class="dashboard-link">Dashboard</a>
+            <a href="{{ url_for('logout') }}" class="logout-link">Logout</a>
+        </div>
+    </header>
+
+    <!-- Content Section -->
+    <div class="content">
+        <h1>Apply for {{ position.title }}</h1>
+        <p><strong>Location:</strong> {{ position.location }}</p>
+        <p><strong>Description:</strong> {{ position.description }}</p>
+
+        <div class="form-container">
+            <form action="{{ url_for('submit_application', position_id=position._id) }}" method="POST" enctype="multipart/form-data">
+                <label for="applicant_name">Your Name</label>
+                <input type="text" id="applicant_name" name="applicant_name" required>
+
+                <label for="resume">Upload Your Resume (PDF/DOC/DOCX)</label>
+                <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" required>
+
+                <label for="cover_letter">Cover Letter (optional)</label>
+                <textarea id="cover_letter" name="cover_letter" rows="4"></textarea>
+
+                <button type="submit" class="submit-button">Submit Application</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

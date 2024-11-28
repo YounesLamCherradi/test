@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RecruitPro - Search CVs</title>
+    <!-- Link to external CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin_search_cv.css') }}">
+</head>
+<body>
+    <div class="overlay"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">RecruitPro</div>
+        <div class="admin-controls">
+            <div class="welcome-message">Welcome, {{ admin_name }}</div>
+            <a href="{{ url_for('admin_dashboard') }}" class="dashboard-link">Dashboard</a>
+            <a href="{{ url_for('logout') }}" class="logout-link">Logout</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="dashboard-content">
+        <h2 class="dashboard-title">Search CVs by Position</h2>
+
+        <!-- Search Section -->
+        <div class="search-section">
+            <form method="POST" action="/search_candidates">
+                <div class="form-group">
+                    <label for="description">Position Description:</label>
+                    <textarea id="description" name="description" placeholder="Enter the position description..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="keywords">Keywords:</label>
+                    <input id="keywords" name="keywords" type="text" placeholder="Enter keywords separated by commas...">
+                </div>
+                <button type="submit" class="search-button">Search CVs</button>
+            </form>
+        </div>
+
+        <!-- Results Section -->
+        <div class="results">
+            {% for cv in results %}
+                <div class="result-card">
+                    <p><strong>Name:</strong> {{ cv['applicant_name'] }}</p>
+                    <p><strong>Email:</strong> {{ cv['applicant_email'] }}</p>
+                    <p class="tags"><strong>Tags:</strong> {{ ', '.join(cv['tags']) }}</p>
+                </div>
+            {% else %}
+                <p>No matching CVs found.</p>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

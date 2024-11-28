@@ -1,0 +1,137 @@
+/* General Reset */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* Body Styling */
+body {
+    font-family: Arial, sans-serif;
+    color: #fff;
+    background-color: #004d40;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+    padding: 20px;
+    margin: 0;
+}
+
+/* Background Animation */
+.overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(135deg, #00695c, #004d40);
+    z-index: -1;
+    animation: backgroundAnimation 10s ease-in-out infinite;
+}
+
+@keyframes backgroundAnimation {
+    0%, 100% { background-position: left top; }
+    50% { background-position: right bottom; }
+}
+
+/* Header Styling with Slide-Down Animation */
+.header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    width: 100%;
+    z-index: 10;
+    transform: translateY(-100%);
+    animation: slideDown 1.5s ease forwards 0.5s; /* Slide-down animation with 0.5s delay */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes slideDown {
+    to { transform: translateY(0); }
+}
+
+.logo {
+    font-size: 2em;
+    font-weight: bold;
+    letter-spacing: 2px;
+    color: #00e676;
+}
+
+.admin-controls {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.welcome-message {
+    font-size: 1.2em;
+    color: #b2dfdb;
+}
+
+.dashboard-link,
+.logout-link {
+    color: #00e676;
+    text-decoration: none;
+    font-size: 1em;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.dashboard-link:hover,
+.logout-link:hover {
+    color: #fff;
+}
+
+/* Admin Dashboard Content */
+.dashboard-content {
+    max-width: 1000px;
+    width: 90%;
+    padding: 50px;
+    background-color: rgba(0, 77, 64, 0.9);
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    margin-top: 150px;
+    animation: fadeIn 1.5s ease 1s; /* Fade-in animation with 1s delay */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.dashboard-title {
+    font-size: 3em;
+    margin-bottom: 40px;
+    color: #ffffff;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+.dashboard-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.option-button {
+    padding: 20px 40px;
+    font-size: 1.5em;
+    font-weight: bold;
+    border: 2px solid #00e676;
+    border-radius: 10px;
+    color: #00e676;
+    background: transparent;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: background-color 0.3s, color 0.3s, transform 0.2s;
+    width: 250px;
+    text-align: center;
+}
+
+.option-button:hover {
+    background-color: #00e676;
+    color: #004d40;
+    transform: scale(1.05);
+}
